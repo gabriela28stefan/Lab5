@@ -2,10 +2,17 @@ package com.example.lab5;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,9 +24,55 @@ public class MainActivity extends Activity {
 	Button buton2;
 	Button buton3;
 	
+	CheckBox checkBox;
 	TextView text1;
 	TextView text2;
 
+	private CheckBoxListener checkBoxListener = new CheckBoxListener();
+	private class CheckBoxListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			if (((CheckBox)v).isChecked() == true) {
+				Log.d("CHECKBOX", "checked!");
+			} else /*if(editText.getText().toString().equals("X"))*/
+			{
+					((CheckBox)v).setChecked(true);
+			}
+		}
+
+	}
+	
+	private EditTextListener editTextListener = new EditTextListener();
+	private class EditTextListener implements TextWatcher {
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			if(editText.getText().toString().equals("X")){
+			//String mesaj = editText.getText().toString();
+			editText.setText(editText.getText().toString() + "a");
+			Log.d("[TEXT]", "mesaj");
+			}
+			
+		}
+		
+		
+	}
+	
 	
 	private ButtonListener buttonListener = new ButtonListener();
 	private class ButtonListener implements View.OnClickListener {
@@ -53,6 +106,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
          editText = (EditText) findViewById(R.id.edit1);
          editText.setText("0");
+         editText.addTextChangedListener(editTextListener);
          
          buton1 = (Button) findViewById(R.id.button1);
          buton2 = (Button) findViewById(R.id.button2);
@@ -64,6 +118,9 @@ public class MainActivity extends Activity {
          text1 = (TextView) findViewById(R.id.text1);
          text2 = (TextView) findViewById(R.id.text2);
          text2.setText("0");
+         
+         checkBox = (CheckBox)findViewById(R.id.checkbox);
+         checkBox.setOnClickListener(checkBoxListener);
     }
 
     @Override
